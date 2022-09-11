@@ -135,20 +135,8 @@
 <p id="codebox">sudo nmap $TARGET -p25 --script smtp-vuln* -oN scans/mailman-nmap-scripts-smtp-vuln</p>
 
 <p id="info">Postfix exploit script  - needs credentials</p>
-<p id="codebox"></p>
+<p id="codebox"><a href="https://github.com/JeffGThompson/offsec-notes.io/blob/main/Scripts/Both/SMTP/postfix-smtpd-exploit.py">postfix-smtpd-exploit.py</a></p>
 
-<h2>RPC - TCP/135 </h2>
-<p id="info">Info gathering</p>
-<p id="codebox">
-rpcclient -U '' $TARGET <br>
-rpcclient $> srvinfo<br>
-rpcclient $> netshareenum  #Print the real file-path of shares; good for accurate RCE<br>
-rpcclient $> exit
-</p>
-
-<h2>NetBIOS - TCP/139 </h2>
-<p id="info">Info Gathering</p>
-<p id="codebox">nbtscan $TARGET</p>
 
 <h2>HTTP/S - TCP/80 & TCP/443 </h2>
 <p id="info">Scan for CGIs</p>
@@ -170,8 +158,27 @@ rpcclient $> exit
 <p id="info">Exploit Tomcat</p>
 <p id="codebox"><a href="https://www.hackingarticles.in/multiple-ways-to-exploit-tomcat-manager/">Tomcat Manager Exploits Cheat Sheet #1</a></p>
 
-<p id="info"></p>
-<p id="codebox"></p>
+<h3>Wordpress</h3>
+<p id="info">Wordpress Initial scan</p>
+<p id="codebox">wpscan --url http://10.11.1.234</p>
+
+<p id="info">Wordpress Bruteforce admin page</p>
+<p id="codebox">wpscan --url http://$TARGET --passwords /usr/share/wordlists/rockyou.txt</p>
+
+
+
+<h2>RPC - TCP/135 </h2>
+<p id="info">Info gathering</p>
+<p id="codebox">
+rpcclient -U '' $TARGET <br>
+rpcclient $> srvinfo<br>
+rpcclient $> netshareenum  #Print the real file-path of shares; good for accurate RCE<br>
+rpcclient $> exit
+</p>
+
+<h2>NetBIOS - TCP/139 </h2>
+<p id="info">Info Gathering</p>
+<p id="codebox">nbtscan $TARGET</p>
 
 
 
@@ -250,8 +257,9 @@ rpcclient $> exit
     xp_cmdshell  whoami <br>
 </p>
 
-<p id="info"></p>
-<p id="codebox"></p>
+<p id="info">Privilege Escalation with MySQL User Defined Functions</p>
+<p id="codebox"><a href="https://medium.com/r3d-buck3t/privilege-escalation-with-mysql-user-defined-functions-996ef7d5ceaf">Walkthrough #1</a></p>
+
 
 
 <h2>VNC - TCP/5800 & TCP/5900 </h2>
