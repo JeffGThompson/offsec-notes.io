@@ -1,5 +1,4 @@
 body{
-
     background: white;
 }
 
@@ -10,6 +9,12 @@ br {
     font-size: 20%;
   }
 
+hr {
+    height:5px;
+    border-width:0;
+    background-color:#00A4BD;
+  }
+
 #codebox {
     background-color: #D3D3D3;
     padding: 10px ;
@@ -17,7 +22,7 @@ br {
     line-height:5px;
   }
   
-  #info {
+#info {
     background-color: white;
     font-weight: bold;
     font-size: 120%;
