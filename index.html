@@ -97,7 +97,11 @@
 <p id="info"></p>
 <p id="codebox"></p>
 
+<hr>
 
+<h1>Web Shells</h1>
+<p id="info">JSP</p>
+<p id="codebox"><a href="https://github.com/LaiKash/JSP-Reverse-and-Web-Shell">JSP Web Shell #1</a></p>
 
 <hr>
 
@@ -109,8 +113,42 @@
 <p id="info">Download Files #1</p>
 <p id="codebox">wget -m ftp://$USERNAME:PASSWORD@$TARGET</p>
 
+<h2>SMTP - TCP/25 </h2>
+<p id="info">Verify if a user exists</p>
+<p id="codebox">
+    telnet $TARGET 25
+    HELO
+    VRFY $USERNAME
+    QUIT
+</p>
 
+<p id="info">Verify if user exists script </p>
+<p id="codebox">smtp-user-enum -M VRFY -U /usr/share/wordlists/metasploit/unix_users.txt -t $TARGET</p>
 
+<p id="info">nmap scan #1</p>
+<p id="codebox">sudo nmap $TARGET -p25 --script smtp-commands -oN nmap-scripts-smtp-commands</p>
+
+<p id="info">nmap scan #2</p>
+<p id="codebox">sudo nmap $TARGET -p25 --script smtp-enum-users --script-args smtp-enum-users.methods={VRFY,EXPN,RCPT} -oN nmap-scripts-smtp-enum-users</p>
+
+<p id="info">nmap scan #3</p>
+<p id="codebox">sudo nmap $TARGET -p25 --script smtp-vuln* -oN scans/mailman-nmap-scripts-smtp-vuln</p>
+
+<p id="info">Postfix exploit script  - needs credentials</p>
+<p id="codebox"></p>
+
+<h2>RPC - TCP/135 </h2>
+<p id="info">Info gathering</p>
+<p id="codebox">
+rpcclient -U '' $TARGET <br>
+rpcclient $> srvinfo<br>
+rpcclient $> netshareenum  #Print the real file-path of shares; good for accurate RCE<br>
+rpcclient $> exit
+</p>
+
+<h2>NetBIOS - TCP/139 </h2>
+<p id="info">Info Gathering</p>
+<p id="codebox">nbtscan $TARGET</p>
 
 <h2>HTTP/S - TCP/80 & TCP/443 </h2>
 <p id="info">Scan for CGIs</p>
@@ -127,29 +165,30 @@
 <p id="codebox">
     git clone https://github.com/p33kab00/shellshock-scan.git <br>
     python2 shellshock-scan.py http://$TARGET/ [optional- usr/share/wordlist/cgi-scripts.lst]
-
 </p>
 
-<p id="info"></p>
-<p id="codebox"></p>
+<p id="info">Exploit Tomcat</p>
+<p id="codebox"><a href="https://www.hackingarticles.in/multiple-ways-to-exploit-tomcat-manager/">Tomcat Manager Exploits Cheat Sheet #1</a></p>
 
 <p id="info"></p>
 <p id="codebox"></p>
-
-
-
-
-
-
-
-
 
 
 
 <h2>SMB - TCP/445</h2>
 <p id="info">List shares</p>
-<p id="codebox">smbclient -L //$TARGET/</p>
-<p id="codebox">smbclient -L //$TARGET/ -p $PORT #Specify non-standard SMB/Samba port</p>
+<p id="codebox">smbclient -L //$TARGET/ <br>
+    recurse ON<br>
+    prompt OFF<br>
+    mget *
+
+</p>
+<p id="codebox">smbclient -L //$TARGET/ -p $PORT #Specify non-standard SMB/Samba port<br>
+    recurse ON<br>
+    prompt OFF<br>
+    mget *
+
+</p>
 
 
 
@@ -176,11 +215,23 @@
 <p id="info">Check if vulnerable to SambaCry</p>
 <p id="codebox">sudo nmap $TARGET -p445 --script smb-vuln-cve-2017-7494 --script-args smb-vuln-cve-2017-7494.check-version -oN scans/$NAME-nmap-scripts-smb-vuln-cve-2017-7494</p>
 
+<p id="info">Enumerate Shares with nmap</p>
+<p id="codebox">nmap -sU -sS --script smb-enum-shares.nse -p U:137,T:139 $TARGET</p>
+
 <p id="info">Enumerate Samba</p>
-<p id="codebox">enum4linux -v  $IP</p>
+<p id="codebox">enum4linux -v $TARGET</p>
 
 <p id="info">Find Samba Version Script</p>
-<p id="codebox">add script</p>
+<p id="codebox"><a href="https://github.com/JeffGThompson/offsec-notes.io/blob/main/Scripts/Both/Samba/smbver.sh">./smbver.sh RHOST {RPORT}</a></p>
+
+<p id="info">Mount Samba Drive</p>
+<p id="codebox">
+    umount  /mnt/smb <br>
+    cd /mnt/smb <br>
+    mount -t cifs -o username=guest //$TARGET/$SHARE /mnt/smb  
+</p>
+
+
 
 
 <h2>Microsoft SQL Server - TCP/1433</h2>
@@ -208,8 +259,12 @@
 <p id="info">Check for VNC vulnerabilities</p>
 <p id="codebox">nmap -sV --script vnc-info,realvnc-auth-bypass,vnc-title -p 5900, 5800  $TARGET</p>
 
-<p id="info"></p>
-<p id="codebox"></p>
+<p id="info">Authentication Bypass</p>
+<p id="codebox">
+    searchsploit vnc  <br>
+    searchsploit -m windows/remote/36932.py <br>
+    python2 36932.py  
+</p>
 
 <p id="info"></p>
 <p id="codebox"></p>
@@ -260,6 +315,12 @@
 
 <p id="info">Find Writable Folders</p>
 <p id="codebox">find / -writable -type d 2>/dev/null</p>
+
+<p id="info">Check commands you can run without  password</p>
+<p id="codebox">sudo -l <br>
+<b>Exploited in the past:</b><br>
+- nmap<br>
+</p>
 
 
 
@@ -335,6 +396,23 @@
 <h2>Python</h2>
 <p id="info">Setting up web server #1</p>
 <p id="codebox">python3 -m http.server 80</p>
+
+
+
+<hr>
+
+
+<h1>SQL Injection</h1>
+<p id="info">SQL Injection Authentication Bypass Cheat Sheet</p>
+<p id="codebox"><a href="https://pentestlab.blog/2012/12/24/sql-injection-authentication-bypass-cheat-sheet/">SQL Injection Authentication Bypass Cheat Sheet #1</a></p>
+<p id="codebox"><a href="http://www.securityidiots.com/Web-Pentest/SQL-Injection/Union-based-Oracle-Injection.html">Union Based Oracle Injection Cheat Sheet #1</a></p>
+<p id="codebox"><a href="https://perspectiverisk.com/mssql-practical-injection-cheat-sheet/">MSSQL Practical Injection Cheat Sheet #1</a></p>
+
+
+
+
+
+
 
 <hr>
 
