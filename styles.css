@@ -1,3 +1,26 @@
-body {
-  
+body{
+
+    background: white;
 }
+
+br {
+    content: "";
+    margin: 5em;
+    display: block;
+    font-size: 20%;
+  }
+
+#codebox {
+    background-color: #D3D3D3;
+    padding: 10px ;
+    font-size: 100%;
+    line-height:5px;
+  }
+  
+  #info {
+    background-color: white;
+    font-weight: bold;
+    font-size: 120%;
+    line-height:5px;
+  }
+   

