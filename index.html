@@ -326,6 +326,12 @@ rpcclient $> exit
 <p id="info">Find Writable Folders</p>
 <p id="codebox">powershell Get-ChildItem C:\ -Recurse | Get-Acl</p>
 
+<h3>Important Locations</h3>
+<p id="info">Binary Locations</p>
+<p id="codebox">C:\Windows\System32\ = 32 bit binary libraries<br>
+    C:\Windows\SysWow64\ = 32 bit binary libraries<br>
+    C:\Windows\SysNative\ = 64 bit binary libraries</p>
+
 <h3>Juicy Potato - ImpersonatePrivilege and/or SeAssignPrimaryTokenPrivilege enabled</h3>
 <p id="info">Check to see if they are enabled</p>
 <p id="codebox">whoami /priv</p>
