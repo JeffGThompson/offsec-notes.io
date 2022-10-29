@@ -12,12 +12,30 @@
 
 <hr>
 
-<h1>General Cheat Sheets</h1>
+<h1>Cheat Sheets</h1>
 <p id="info">General Cheat Sheets</p>
 <p id="codebox"><a href="https://github.com/cyberphor/oscp/blob/main/cheatsheets/README.md">General Cheat Sheet #1</a></p>
 <p id="codebox"><a href="https://notchxor.github.io/oscp-notes/">General Cheat Sheet #2</a></p>
-        
+<p id="codebox"><a href="https://therealunicornsecurity.github.io/OSCP/">General Cheat Sheet #3</a></p>
+<p id="codebox"><a href="https://dw3113r.com/2022/07/20/basic-pentesting-cheat-sheet/">General Cheat Sheet #4</a></p>
+<p id="codebox"><a href="https://book.hacktricks.xyz/welcome/readme">Hack tricks - General Cheat Sheet #5</a></p>
+<p id="codebox"><a href="https://fareedfauzi.gitbook.io/oscp-notes/services-enumeration/http-s/enumeration-checklist">General Cheat Sheet #6</a></p>
 
+
+
+
+
+
+<p id="info">Active Directory Cheat Sheets</p>
+<p id="codebox"><a href="https://medium.com/@kuwaitison/active-directory-lateral-movement-and-post-exploitation-cheat-sheet-3170982a7055">Active Directory Cheat Sheet #1</a></p>
+<p id="codebox"><a href="https://medium.com/@kuwaitison/active-directory-cheat-sheet-94e0bb9bed2">Active Directory Cheat Sheet #2</a></p>
+<p id="codebox"><a href="https://medium.com/@dw3113r/active-directory-attack-cheat-sheet-ea9e9744028d">Active Directory Cheat Sheet #3</a></p>
+
+
+
+<p id="codebox"><a href="https://i.ibb.co/TKYNCNP/Pentest-ad.png">Active Directory Mind Map #1</a></p>
+
+<p id="codebox"><a href="">Active Directory Cheat Sheet #1</a></p>
 <hr>    
     
 <h1>Initial Scans</h1>
@@ -193,6 +211,19 @@
     python2 shellshock-scan.py http://$TARGET/ [optional- usr/share/wordlist/cgi-scripts.lst]
 </p>
 
+<p id="info">Get info about web server</p>
+<p id="codebox">
+    Look for things like X-Powered-By<br>
+    wget -q --server-response http://$TARGET
+</p>
+
+<p id="info">See what formats can be used on the server</p>
+<p id="codebox">
+    davtest -url http://$TARGET
+
+</p>
+
+
 <p id="info">Exploit Tomcat</p>
 <p id="codebox"><a href="https://www.hackingarticles.in/multiple-ways-to-exploit-tomcat-manager/">Tomcat Manager Exploits Cheat Sheet #1</a></p>
 
@@ -327,6 +358,15 @@ rpcclient $> exit
 
 
 <h1>Privilege Escalation</h1>
+
+<p id="info">Mind Maps</p>
+<p id="codebox"><a href="https://github.com/hxhBrofessor/PrivEsc-MindMap">Priv Esc Mindmap</a></p>
+
+<p id="info">Privilege Escalation Cheat Sheets</p>
+<p id="codebox"><a href="https://sushant747.gitbooks.io/total-oscp-guide/content/privilege_escalation_windows.html">Priv Esc CheatSheet #1</a></p>
+
+
+
 <h2>Windows</h2>
 <h3>Intial - Recon</h3>
 <p id="info">Guides on what to look for</p>
@@ -387,6 +427,12 @@ rpcclient $> exit
 <p id="codebox">sudo -l <br>
 <b>Exploited in the past:</b><br>
 - nmap<br>
+
+<p id="info">Linux process Snooping</p>
+<p id="codebox"><a href="https://github.com/DominicBreuker/pspy">Find processes running as root / other users</a></p>
+
+
+
 </p>
 
 
